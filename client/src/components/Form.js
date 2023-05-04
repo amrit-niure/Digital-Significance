@@ -35,9 +35,6 @@ function Form() {
  alert("Data saved")
       
 }
-
-
-
   return (
     <div className='form'>
       {/* <form  action='http://localhost:5000/api/user' method='POST'> */}

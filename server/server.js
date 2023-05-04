@@ -20,12 +20,21 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // ---------------------------------------------------------------------------------------
 // find the data from database if browser hits http:localhost:5000/api endpoint
 app.get('/api',async (req,res) =>{
-  try {
-    const users = await User.find()
-    res.json(users)
-  } catch (error) {
-    res.status(500).send(error)
-  }
+    try {
+      const users = await User.find()
+      res.json(users)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+})
+app.get('/api/user/',async (req,res) =>{
+  const id = req.query.id
+    try {
+      const users = await User.findById(id)
+      res.json(users)
+    } catch (error) {
+      res.status(500).send(error)
+    }
 })
 // add users
 app.post('/api/user',async (req,res) => {
@@ -37,7 +46,7 @@ app.post('/api/user',async (req,res) => {
     res.status(201).json(user)
     // res.redirect('http:localhost:3000/form')
     // res.status(201).send()
-  } catch (error) {
+  } catch (error) { 
     console.log(error)
   }
 })
