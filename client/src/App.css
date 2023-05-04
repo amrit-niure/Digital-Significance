@@ -89,3 +89,8 @@ a{
  h1{
   font-family: 'Bruno Ace SC', cursive;
  }
+
+ /* update */
+ .modal_container{
+  text-align: center;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import '../App.css';
+import { Link } from 'react-router-dom';
 
 function Main() {
 // state variable to store the fetched data from database
@@ -16,7 +17,6 @@ fetch(endpoint)
   setinput(data)
 })
 .catch(err=> console.log(`Problem During the Database fetch using ${endpoint}\n ${err}`))
-
 },[])
 
 const deleteHandler = async (id)=>{
@@ -30,10 +30,9 @@ const deleteHandler = async (id)=>{
   }
 }
 const editHandler = async (id)=>{
- alert(`Need to edit ${id}`)
-//  further logic 
+
 }
-  return (
+  return (<>
     <div className='main'>
       <div className="table">
         <table>
@@ -55,7 +54,7 @@ const editHandler = async (id)=>{
                 <td>{user.gender}</td>
                 <td>
                   <button onClick={()=> deleteHandler(user._id)}>Del</button> 
-                  <button onClick={()=> editHandler(user._id)}>Edit</button>
+                  <Link to={`/update/?id=${user._id}`}>  <button onClick={()=> editHandler(user._id)}> Edit</button> </Link> 
                   </td>
               </tr>
             ))}
@@ -64,6 +63,8 @@ const editHandler = async (id)=>{
         </table> 
       </div>
     </div>
+      
+      </>
   )
 }
 

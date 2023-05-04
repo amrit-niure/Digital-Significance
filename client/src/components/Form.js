@@ -15,8 +15,6 @@ function Form() {
       ...input,
       [name]: value
     }));
-
-
   };
 
   // send data to server using axios
@@ -34,17 +32,9 @@ function Form() {
         console.log(error)
         console.log("problem here.")
       }
-               alert("Data saved")
+ alert("Data saved")
       
 }
-
-
-
-
-
-
-
-
   return (
     <div className='form'>
       {/* <form  action='http://localhost:5000/api/user' method='POST'> */}

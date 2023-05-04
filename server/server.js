@@ -13,20 +13,64 @@ const User = require('./models/User');
 app.use(cors());
 // middleware to parse-json
 app.use(bodyParser.json({ extended: true }))
-// app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 // 
 
 // routes
 // ---------------------------------------------------------------------------------------
 // find the data from database if browser hits http:localhost:5000/api endpoint
 app.get('/api',async (req,res) =>{
+    try {
+      const users = await User.find()
+      res.json(users)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+})
+app.get('/api/user/',async (req,res) =>{
+  const id = req.query.id
+    try {
+      const users = await User.findById(id)
+      res.json(users)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+})
+// add users
+app.post('/api/user',async (req,res) => {
   try {
-    const users = await User.find()
-    res.json(users)
-  } catch (error) {
-    res.status(500).send(error)
+    console.log(req.body);
+    const user = new User(req.body)
+    console.log(user)
+    await user.save()
+    res.status(201).json(user)
+    // res.redirect('http:localhost:3000/form')
+    // res.status(201).send()
+  } catch (error) { 
+    console.log(error)
   }
 })
+
+// update the user data
+app.put('/api/user/:id',async(req,res)=>{
+  try {
+    const id = req.params.id
+    console.log(req.body)
+    const update = await User.findByIdAndUpdate(id,req.body,{ new: true , useFindAndModify: false})
+    if(!update){
+      res.status(404).send({message : `Cannot Update user with ${id}. Maybe user not found.`})
+      }else{
+          res.send(update)
+      }
+  } catch (error) {
+    res.status(500).send({message : "Error updating user information"})
+  }
+})
+
+
+
+
+// delete users
 app.delete('/api/user/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -42,22 +86,6 @@ app.delete('/api/user/:id', async (req, res) => {
 });
 // --------------------------------------------------------------------------------
 // add the employees using post request to the database
-app.post('/api/user',async (req,res) => {
-  try {
-    console.log(req.body);
-    const user = new User(req.body)
-    console.log(user)
-    await user.save()
-    // res.status(201).json(user)
-    res.redirect('http:localhost:3000/form')
-    // res.status(201).send()
-  } catch (error) {
-    console.log(error)
-  }
- 
-})
-
-
 
 // database connection
 const connectDB = async () => {
